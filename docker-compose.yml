@@ -12,6 +12,7 @@ services:
     build: .
     #command: bundle exec rackup -p 3000
     #command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails db:migrate && bundle exec rails s -e production -p 3000 -b '0.0.0.0'"
+    command: bash -c "rm -f tmp/pids/server.pid && rake db:create && rake db:migrate assets:precompile && puma -C config/puma.rb"
     volumes:
       - .:/myapp
     ports:
@@ -20,5 +21,6 @@ services:
       - db
     environment:
       - POSTGRES_PASSWORD=somepassword
+      - RAILS_ENV=production
     depends_on:
       - db
